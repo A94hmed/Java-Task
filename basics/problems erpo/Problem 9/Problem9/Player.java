@@ -1,0 +1,29 @@
+package Problem9;
+
+public abstract class Player {
+
+    String name;
+    int age;
+
+    //constructor
+    Player(){
+
+    }
+    Player(String name,int age){
+
+        this.name=name;
+        this.age=age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    abstract void print();
+
+
+}
