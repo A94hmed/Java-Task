@@ -1,0 +1,286 @@
+-- ==========================================================
+-- Question 1
+-- Retrieve employee names and their manager names
+-- (Self Join using aliases)
+-- ==========================================================
+
+CREATE TABLE EMPLOYEES (
+    EMPLOYEE_ID NUMBER PRIMARY KEY,
+    EMPLOYEE_NAME VARCHAR2(50),
+    MANAGER_ID NUMBER
+);
+
+INSERT INTO EMPLOYEES VALUES (1,'Ahmed',NULL);
+INSERT INTO EMPLOYEES VALUES (2,'Sara',1);
+INSERT INTO EMPLOYEES VALUES (3,'Ali',1);
+
+SELECT E.EMPLOYEE_NAME AS EMPLOYEE,
+       M.EMPLOYEE_NAME AS MANAGER
+FROM EMPLOYEES E
+LEFT JOIN EMPLOYEES M
+ON E.MANAGER_ID = M.EMPLOYEE_ID;
+
+
+-- ==========================================================
+-- Question 2
+-- List customer names and salesperson names
+-- ==========================================================
+
+CREATE TABLE CUSTOMERS (
+    CUSTOMER_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50),
+    SALESPERSON_ID NUMBER
+);
+
+CREATE TABLE EMPLOYEES2 (
+    EMPLOYEE_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50)
+);
+
+INSERT INTO EMPLOYEES2 VALUES (1,'Ahmed');
+INSERT INTO EMPLOYEES2 VALUES (2,'Sara');
+
+INSERT INTO CUSTOMERS VALUES (101,'Ali',1);
+INSERT INTO CUSTOMERS VALUES (102,'Mona',2);
+
+SELECT C.NAME AS CUSTOMER_NAME,
+       E.NAME AS SALESPERSON_NAME
+FROM CUSTOMERS C
+JOIN EMPLOYEES2 E
+ON C.SALESPERSON_ID = E.EMPLOYEE_ID;
+
+
+-- ==========================================================
+-- Question 3
+-- Display order IDs and product IDs
+-- ==========================================================
+
+CREATE TABLE ORDERS (
+    ORDER_ID NUMBER PRIMARY KEY
+);
+
+CREATE TABLE ORDER_DETAILS (
+    ORDER_ID NUMBER,
+    PRODUCT_ID NUMBER
+);
+
+INSERT INTO ORDERS VALUES (1);
+INSERT INTO ORDERS VALUES (2);
+
+INSERT INTO ORDER_DETAILS VALUES (1,101);
+INSERT INTO ORDER_DETAILS VALUES (2,102);
+
+SELECT O.ORDER_ID,
+       OD.PRODUCT_ID
+FROM ORDERS O
+JOIN ORDER_DETAILS OD
+ON O.ORDER_ID = OD.ORDER_ID;
+
+
+-- ==========================================================
+-- Question 4
+-- Retrieve student names and instructor names
+-- ==========================================================
+
+CREATE TABLE STUDENTS (
+    STUDENT_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50),
+    INSTRUCTOR_ID NUMBER
+);
+
+CREATE TABLE INSTRUCTORS (
+    INSTRUCTOR_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50)
+);
+
+INSERT INTO INSTRUCTORS VALUES (1,'Mohamed');
+INSERT INTO INSTRUCTORS VALUES (2,'Ali');
+
+INSERT INTO STUDENTS VALUES (101,'Omar',1);
+INSERT INTO STUDENTS VALUES (102,'Mona',2);
+
+SELECT S.NAME AS STUDENT_NAME,
+       I.NAME AS INSTRUCTOR_NAME
+FROM STUDENTS S
+JOIN INSTRUCTORS I
+ON S.INSTRUCTOR_ID = I.INSTRUCTOR_ID;
+
+
+-- ==========================================================
+-- Question 5
+-- Show employee salaries and department budgets
+-- ==========================================================
+
+CREATE TABLE DEPARTMENTS (
+    DEPARTMENT_ID NUMBER PRIMARY KEY,
+    BUDGET NUMBER
+);
+
+CREATE TABLE EMPLOYEES3 (
+    EMPLOYEE_ID NUMBER PRIMARY KEY,
+    EMPLOYEE_NAME VARCHAR2(50),
+    SALARY NUMBER,
+    DEPARTMENT_ID NUMBER
+);
+
+INSERT INTO DEPARTMENTS VALUES (10,100000);
+INSERT INTO DEPARTMENTS VALUES (20,200000);
+
+INSERT INTO EMPLOYEES3 VALUES (1,'Ahmed',8000,10);
+INSERT INTO EMPLOYEES3 VALUES (2,'Sara',9000,20);
+
+SELECT E.EMPLOYEE_NAME,
+       E.SALARY,
+       D.BUDGET
+FROM EMPLOYEES3 E
+JOIN DEPARTMENTS D
+ON E.DEPARTMENT_ID = D.DEPARTMENT_ID;
+
+
+-- ==========================================================
+-- Question 6
+-- Display project names and task names
+-- ==========================================================
+
+CREATE TABLE PROJECTS (
+    PROJECT_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50)
+);
+
+CREATE TABLE TASKS (
+    TASK_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50),
+    PROJECT_ID NUMBER
+);
+
+INSERT INTO PROJECTS VALUES (1,'Bank System');
+INSERT INTO PROJECTS VALUES (2,'Hospital System');
+
+INSERT INTO TASKS VALUES (101,'Login',1);
+INSERT INTO TASKS VALUES (102,'Dashboard',2);
+
+SELECT P.NAME AS PROJECT_NAME,
+       T.NAME AS TASK_NAME
+FROM PROJECTS P
+JOIN TASKS T
+ON P.PROJECT_ID = T.PROJECT_ID;
+
+
+-- ==========================================================
+-- Question 7
+-- Retrieve course dates and exam dates
+-- ==========================================================
+
+CREATE TABLE COURSES (
+    COURSE_ID NUMBER PRIMARY KEY,
+    COURSE_NAME VARCHAR2(50),
+    COURSE_DATE DATE
+);
+
+CREATE TABLE EXAMS (
+    EXAM_ID NUMBER PRIMARY KEY,
+    COURSE_ID NUMBER,
+    EXAM_DATE DATE
+);
+
+INSERT INTO COURSES VALUES (1,'Java',DATE '2026-08-01');
+INSERT INTO COURSES VALUES (2,'Oracle',DATE '2026-08-05');
+
+INSERT INTO EXAMS VALUES (101,1,DATE '2026-08-15');
+INSERT INTO EXAMS VALUES (102,2,DATE '2026-08-20');
+
+SELECT C.COURSE_NAME,
+       C.COURSE_DATE,
+       E.EXAM_DATE
+FROM COURSES C
+JOIN EXAMS E
+ON C.COURSE_ID = E.COURSE_ID;
+
+
+-- ==========================================================
+-- Question 8
+-- Show product name and category name
+-- ==========================================================
+
+CREATE TABLE CATEGORIES (
+    CATEGORY_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50)
+);
+
+CREATE TABLE PRODUCTS (
+    PRODUCT_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50),
+    CATEGORY_ID NUMBER
+);
+
+INSERT INTO CATEGORIES VALUES (1,'Electronics');
+INSERT INTO CATEGORIES VALUES (2,'Furniture');
+
+INSERT INTO PRODUCTS VALUES (101,'Laptop',1);
+INSERT INTO PRODUCTS VALUES (102,'Chair',2);
+
+SELECT P.NAME AS PRODUCT_NAME,
+       C.NAME AS CATEGORY_NAME
+FROM PRODUCTS P
+JOIN CATEGORIES C
+ON P.CATEGORY_ID = C.CATEGORY_ID;
+
+
+-- ==========================================================
+-- Question 9
+-- Display book title and publisher name
+-- ==========================================================
+
+CREATE TABLE PUBLISHERS (
+    PUBLISHER_ID NUMBER PRIMARY KEY,
+    NAME VARCHAR2(50)
+);
+
+CREATE TABLE BOOKS (
+    BOOK_ID NUMBER PRIMARY KEY,
+    TITLE VARCHAR2(50),
+    PUBLISHER_ID NUMBER
+);
+
+INSERT INTO PUBLISHERS VALUES (1,'Pearson');
+INSERT INTO PUBLISHERS VALUES (2,'O''Reilly');
+
+INSERT INTO BOOKS VALUES (101,'Java Basics',1);
+INSERT INTO BOOKS VALUES (102,'Oracle SQL',2);
+
+SELECT B.TITLE,
+       P.NAME AS PUBLISHER_NAME
+FROM BOOKS B
+JOIN PUBLISHERS P
+ON B.PUBLISHER_ID = P.PUBLISHER_ID;
+
+
+-- ==========================================================
+-- Question 10
+-- Display employee names and department locations
+-- ==========================================================
+
+CREATE TABLE DEPARTMENTS2 (
+    DEPARTMENT_ID NUMBER PRIMARY KEY,
+    LOCATION VARCHAR2(50)
+);
+
+CREATE TABLE EMPLOYEES4 (
+    EMPLOYEE_ID NUMBER PRIMARY KEY,
+    EMPLOYEE_NAME VARCHAR2(50),
+    LOCATION VARCHAR2(50),
+    DEPARTMENT_ID NUMBER
+);
+
+INSERT INTO DEPARTMENTS2 VALUES (10,'Cairo');
+INSERT INTO DEPARTMENTS2 VALUES (20,'Alexandria');
+
+INSERT INTO EMPLOYEES4 VALUES (1,'Ahmed','Giza',10);
+INSERT INTO EMPLOYEES4 VALUES (2,'Sara','Mansoura',20);
+
+SELECT E.EMPLOYEE_NAME,
+       E.LOCATION AS EMPLOYEE_LOCATION,
+       D.LOCATION AS DEPARTMENT_LOCATION
+FROM EMPLOYEES4 E
+JOIN DEPARTMENTS2 D
+ON E.DEPARTMENT_ID = D.DEPARTMENT_ID;
