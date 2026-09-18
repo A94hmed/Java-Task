@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Player Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+    <h1>Player Management</h1>
+
+
+    <input id="playerId" placeholder="Player ID">
+
+    <input id="playerName" placeholder="Name">
+
+    <input id="playerTeam" placeholder="Team">
+
+    <input id="playerAge" placeholder="Age">
+
+
+    <button onclick="save()">Save Player</button>
+
+    <button onclick="update()">Update Player</button>
+
+    <button onclick="get()">Get Player</button>
+
+    <button onclick="remove()">Delete Player</button>
+
+
+
+    <div id="result"></div>
+
+
+</div>
+
+
+<script>
+    <script>
+
+    function save(){
+
+    fetch('/players',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+
+            name: document.getElementById("playerName").value,
+            team: document.getElementById("playerTeam").value,
+            age: document.getElementById("playerAge").value
+
+        })
+
+    })
+    .then(r=>r.json())
+    .then(data=>{
+
+        document.getElementById("result").innerHTML =
+        JSON.stringify(data);
+
+    });
+
+    }
+
+
+
+    function get(){
+
+    let id = document.getElementById("playerId").value;
+
+    fetch('/players/' + id)
+
+    .then(r=>r.json())
+
+    .then(data=>{
+
+        document.getElementById("result").innerHTML =
+        JSON.stringify(data);
+
+
+        document.getElementById("playerName").value = data.name;
+        document.getElementById("playerTeam").value = data.team;
+        document.getElementById("playerAge").value = data.age;
+
+    });
+
+    }
+
+
+
+    function update(){
+
+    let id = document.getElementById("playerId").value;
+
+    fetch('/players/' + id,{
+        method:'PUT',
+        headers:{
+            'Content-Type':'application/json'
+        },
+
+        body:JSON.stringify({
+
+            name: document.getElementById("playerName").value,
+            team: document.getElementById("playerTeam").value,
+            age: document.getElementById("playerAge").value
+
+        })
+
+    })
+
+    .then(r=>r.json())
+
+    .then(data=>{
+
+        document.getElementById("result").innerHTML =
+        JSON.stringify(data);
+
+    });
+
+    }
+
+
+
+    function remove(){
+
+    let id = document.getElementById("playerId").value;
+
+    fetch('/players/' + id,{
+        method:'DELETE'
+    })
+
+    .then(r=>r.text())
+
+    .then(data=>{
+
+        document.getElementById("result").innerHTML = data;
+
+    });
+
+    }
+
+
+</script>
+
+</script>
+
+
+</body>
+</html>
